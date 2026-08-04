@@ -21,11 +21,11 @@ LOCAL_DIFFUSERS_SRC = LTX_DIR / "vendor"
 
 DEFAULTS = {
     "wan": {
-        "student_ckpt": WAN_DIR / "vae_decoder_epoch21.pth",
-        "teacher_ckpt": WAN_DIR / "Wan2.1_VAE_orin.pth",
+        "student_ckpt": WAN_DIR / "Flash_VAED_Wan.pth",
+        "teacher_ckpt": WAN_DIR / "Wan_VAE_Teacher.pth",
     },
     "ltx": {
-        "student_ckpt": LTX_DIR / "LPIPS_Best_1_14.pth",
+        "student_ckpt": LTX_DIR / "Flash_VAED_LTX.pth",
         "teacher_dir": LTX_DIR / "teacher",
     },
 }

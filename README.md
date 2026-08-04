@@ -35,7 +35,7 @@ Latent diffusion models have enabled high-quality video synthesis, yet their inf
 <p align="center">
   <img src="assets/overview.png" width="100%"/>
   <br/>
-  <em>Overview of Flash-VAED. Stage-wise dominant operator optimization (left) replaces CausalConv3D with stage-specific efficient operators; independence-aware channel pruning (right) reduces channels to 12.5%–25% of the original with minimal quality loss.</em>
+  <em>Overview of the Flash-VAED architecture. Stage-wise dominant operator optimization (left) substitutes CausalConv3D with stage-specific efficient operators; independence-aware channel pruning (right) reduces channels to 12.5%–25% of the original with minimal quality loss.</em>
 </p>
 
 ## ✅ TODO List
@@ -51,8 +51,8 @@ Weights are hosted on Hugging Face: **[Aoko955/Flash-VAED](https://huggingface.c
 
 | Variant | Student checkpoint | Teacher | Approx. size (student) |
 |---------|--------------------|---------|------------------------|
-| Wan 2.1 | `models/wan/vae_decoder_epoch21.pth` | `models/wan/Wan2.1_VAE_orin.pth` | ~23 MB |
-| LTX-Video | `models/ltx/LPIPS_Best_1_14.pth` | `models/ltx/teacher/` | ~944 MB |
+| Wan 2.1 | `models/wan/Flash_VAED_Wan.pth` | `models/wan/Wan_VAE_Teacher.pth` | ~23 MB |
+| LTX-Video | `models/ltx/Flash_VAED_LTX.pth` | `models/ltx/teacher/` | ~944 MB |
 
 **Download (repo-relative layout):**
 
@@ -68,9 +68,9 @@ huggingface-cli download Aoko955/Flash-VAED \
 Expected files after download:
 
 ```text
-models/wan/vae_decoder_epoch21.pth
-models/wan/Wan2.1_VAE_orin.pth
-models/ltx/LPIPS_Best_1_14.pth
+models/wan/Flash_VAED_Wan.pth
+models/wan/Wan_VAE_Teacher.pth
+models/ltx/Flash_VAED_LTX.pth
 models/ltx/teacher/config.json
 models/ltx/teacher/diffusion_pytorch_model.safetensors
 ```

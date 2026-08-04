@@ -1,59 +1,71 @@
-# Flash-VAED (ICML 2026)
+# Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation
 
-Official codebase for **[Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation](https://github.com/Aoko955/Flash-VAED)**.
+[![GitHub](https://img.shields.io/badge/GitHub-Aoko955%2FFlash--VAED-black?logo=github)](https://github.com/Aoko955/Flash-VAED)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow)](https://huggingface.co/Aoko955/Flash-VAED)
+[![ICML 2026](https://img.shields.io/badge/ICML-2026-blue)](https://icml.cc/)
 
-Lightweight, drop-in video VAE **decoders** for **Wan** and **LTX**. The teacher encoder is unchanged; the student decoder uses channel pruning, standard 2D convolutions at high resolution, and 3D depthwise-separable convolutions in earlier stages.
+Lunjie Zhu<sup>1</sup>,
+Yushi Huang<sup>1</sup>,
+[Xingtong Ge](https://xingtongge.github.io/)<sup>1</sup>,
+Yufei Xue<sup>1</sup>,
+Zhening Liu<sup>1</sup>,
+Yumeng Zhang<sup>1</sup>,
+Zehong Lin<sup>2</sup>,
+[Jun Zhang](https://eejzhang.people.ust.hk/)<sup>1</sup>\*
 
-| Variant | Student checkpoint | Approx. size |
-|---------|-------------------|--------------|
-| Wan | `models/wan/vae_decoder_epoch21.pth` | ~23MB |
-| LTX | `models/ltx/LPIPS_Best_1_14.pth` | ~944MB |
+<sup>1</sup>iComAI Lab, The Hong Kong University of Science and Technology &nbsp;&nbsp;
+<sup>2</sup>School of Data Science, Lingnan University
 
-This GitHub repo hosts **inference code**. Large weights are hosted on Hugging Face (see [Download checkpoints](#download-checkpoints)).
+The Forty-Third International Conference on Machine Learning (**ICML**), 2026
 
-## Repository layout
+\* Corresponding author: [eejzhang@ust.hk](mailto:eejzhang@ust.hk)
 
-```text
-Flash-VAED/
-  infer.py
-  requirements.txt
-  models/
-    wan/
-      model_hybrid_aggressive.py   # Wan student
-      model_original.py            # Wan teacher (encode)
-    ltx/
-      ltx_prune_1_4.py              # LTX student
-      vendor/                       # minimal local helpers (no pip diffusers)
-      teacher/config.json           # LTX teacher config (weights on HF)
-```
+---
 
-## Install
+## 📝 Abstract
+
+Latent diffusion models have enabled high-quality video synthesis, yet their inference remains costly and time-consuming. As diffusion transformers become increasingly efficient, the latency bottleneck inevitably shifts to VAE decoders. To reduce their latency while maintaining quality, we propose a universal acceleration framework for VAE decoders that preserves full alignment with the original latent distribution. Specifically, we propose (1) an *independence-aware channel pruning* method to effectively mitigate severe channel redundancy, and (2) a *stage-wise dominant operator optimization* strategy to address the high inference cost of the widely used causal 3D convolutions in VAE decoders. Based on these innovations, we construct a **Flash-VAED** family. Moreover, we design a *three-phase dynamic distillation* framework that efficiently transfers the capabilities of the original VAE decoder to Flash-VAED. Extensive experiments on Wan and LTX-Video VAE decoders demonstrate that our method outperforms baselines in both quality and speed, achieving approximately a **6× speedup** while maintaining the reconstruction performance up to **96.9%**. Notably, Flash-VAED accelerates the end-to-end generation pipeline by up to **36%** with negligible quality drops on VBench-2.0.
+
+<p align="center">
+  <img src="assets/teaser.png" width="100%"/>
+  <br/>
+  <em>Qualitative and quantitative comparisons of video reconstruction. Flash-VAED (bottom) offers the fastest decoding speed with minimal fidelity loss vs. the original VAE decoder (top) and prior baselines (middle).</em>
+</p>
+
+<p align="center">
+  <img src="assets/overview.png" width="100%"/>
+  <br/>
+  <em>Overview of Flash-VAED. Stage-wise dominant operator optimization (left) replaces CausalConv3D with stage-specific efficient operators; independence-aware channel pruning (right) reduces channels to 12.5%–25% of the original with minimal quality loss.</em>
+</p>
+
+## ✅ TODO List
+
+- [x] Inference scripts (Wan / LTX)
+- [x] Open-source model weights
+- [ ] Training code & configs
+- [ ] arXiv preprint
+
+## 🤗 Model Weights
+
+Weights are hosted on Hugging Face: **[Aoko955/Flash-VAED](https://huggingface.co/Aoko955/Flash-VAED)**.
+
+| Variant | Student checkpoint | Teacher | Approx. size (student) |
+|---------|--------------------|---------|------------------------|
+| Wan 2.1 | `models/wan/vae_decoder_epoch21.pth` | `models/wan/Wan2.1_VAE_orin.pth` | ~23 MB |
+| LTX-Video | `models/ltx/LPIPS_Best_1_14.pth` | `models/ltx/teacher/` | ~944 MB |
+
+**Download (repo-relative layout):**
 
 ```bash
-conda create -n flashvaed python=3.10 -y
-conda activate flashvaed
-
-# Install a CUDA build of PyTorch that matches your driver, e.g.:
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-
-pip install -r requirements.txt
-```
-
-## Download checkpoints
-
-Place weights under the repo root so default paths in `infer.py` resolve:
-
-```bash
-# Replace YOUR_HF_ID after you create the HF model repo, e.g. Aoko955/Flash-VAED
 pip install -U "huggingface_hub[cli]"
-huggingface-cli download YOUR_HF_ID \
+huggingface-cli download Aoko955/Flash-VAED \
   --local-dir . \
   --include "models/wan/*.pth" \
   --include "models/ltx/*.pth" \
   --include "models/ltx/teacher/*"
 ```
 
-Expected files:
+Expected files after download:
 
 ```text
 models/wan/vae_decoder_epoch21.pth
@@ -65,7 +77,21 @@ models/ltx/teacher/diffusion_pytorch_model.safetensors
 
 Override paths with `--ckpt`, `--teacher_ckpt`, or `--teacher_dir` if needed.
 
-## Inference
+## 💻 Installation
+
+```bash
+conda create -n flashvaed python=3.10 -y
+conda activate flashvaed
+
+# Install a CUDA build of PyTorch that matches your driver, e.g.:
+pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
+
+pip install -r requirements.txt
+```
+
+> LTX inference does **not** require `pip install diffusers` (a minimal local vendor is included).
+
+## 🚀 Inference
 
 ### Reconstruct a video (teacher encode → student decode)
 
@@ -73,6 +99,8 @@ Override paths with `--ckpt`, `--teacher_ckpt`, or `--teacher_dir` if needed.
 python infer.py --model wan --input demo.mp4 --output outs/wan
 python infer.py --model ltx --input demo.mp4 --output outs/ltx
 ```
+
+With more options:
 
 ```bash
 python infer.py --model wan --input demo.mp4 --output outs/wan \
@@ -89,25 +117,73 @@ python infer.py --model wan --mode decode --latent z.pt --output outs/decode
 
 `z.pt` should be a `torch.Tensor`, or a dict with key `latent` / `latents` / `z`.
 
-## Method sketch
+## 📈 Results
 
-**Wan student**
-- Upsample stages 2–3: ~1/8 channels vs. the original Wan decoder; residuals use standard `nn.Conv2d` on `(B·T, C, H, W)`.
-- Middle + upsample 0–1 residuals: 3D depthwise-separable convolutions.
+### Video reconstruction (UCF-101)
 
-**LTX student**
-- Upsample stages 2–3: 1/4 channels vs. the original LTX decoder.
-- Upsample 3 residuals: standard `nn.Conv2d` (spatial).
-- Middle + upsample 0–1: 3D depthwise-separable convolutions.
-- Upsample 2 remains pruned standard 3D.
+Flash-VAED vs. original VAE decoders and competitive baselines on RTX 5090D / Jetson Orin.
 
-LTX inference does **not** require `pip install diffusers`.
+| Model | $(d_T, d_H, d_W)$ | FPS (5090D) ↑ | FPS (Orin) ↑ | PSNR ↑ | SSIM ↑ | LPIPS ↓ |
+|-------|-------------------|---------------|--------------|--------|--------|---------|
+| Wan 2.1 | (4, 8, 8) | 19.27 | 0.65 | 40.40 | 0.9733 | 0.0190 |
+| LightVAE-Wan 2.1 | (4, 8, 8) | 118.60 | **3.70** | 32.61 | 0.9416 | 0.0892 |
+| **Flash-VAED-Wan 2.1 (Ours)** | (4, 8, 8) | **118.77** | **3.70** | **37.61** | **0.9614** | **0.0285** |
+| LTX-Video | (8, 32, 32) | 204.55 | 4.75 | 33.28 | 0.9253 | 0.0497 |
+| Turbo-VAED-LTX | (8, 32, 32) | 623.08 | 23.24 | 31.52 | 0.9275 | 0.0555 |
+| **Flash-VAED-LTX (Ours)** | (8, 32, 32) | **1167.99** | **26.74** | **32.24** | **0.9293** | **0.0551** |
 
-## Acknowledgements
+### Temporal consistency (warping error ↓)
 
-- Wan VAE: [Wan2.1](https://github.com/Wan-Video/Wan2.1)
-- LTX VAE: [LTX-Video](https://huggingface.co/Lightricks/LTX-Video)
+| Model | $E_{\mathrm{warp}}$ ↓ |
+|-------|----------------------|
+| Wan 2.1 | 0.017783 |
+| LightVAE-Wan 2.1 | 0.026640 |
+| **Flash-VAED-Wan 2.1** | **0.018662** |
+| LTX-Video | 0.022071 |
+| Turbo-VAED-LTX | 0.026261 |
+| **Flash-VAED-LTX** | **0.024267** |
 
-## License
+<p align="center">
+  <img src="assets/gen_teaser.png" width="100%"/>
+  <br/>
+  <em>Generation examples with Flash-VAED plugged into the video generation pipeline.</em>
+</p>
 
-Please respect upstream Wan / LTX licenses when redistributing weights. Add the project license for this release as needed.
+## 📂 Repository Layout
+
+```text
+Flash-VAED/
+  infer.py
+  requirements.txt
+  assets/
+  models/
+    wan/
+      model_hybrid_aggressive.py   # Wan student
+      model_original.py            # Wan teacher (encode)
+    ltx/
+      ltx_prune_1_4.py              # LTX student
+      vendor/                       # minimal local helpers (no pip diffusers)
+      teacher/config.json           # LTX teacher config (weights on HF)
+```
+
+## 📚 Citation
+
+If you find this work useful, please cite:
+
+```bibtex
+@inproceedings{zhu2026flashvaed,
+  title     = {Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation},
+  author    = {Zhu, Lunjie and Huang, Yushi and Ge, Xingtong and Xue, Yufei and Liu, Zhening and Zhang, Yumeng and Lin, Zehong and Zhang, Jun},
+  booktitle = {International Conference on Machine Learning (ICML)},
+  year      = {2026}
+}
+```
+
+## ⚖️ Acknowledgements & License
+
+This work builds on:
+
+- [Wan2.1](https://github.com/Wan-Video/Wan2.1)
+- [LTX-Video](https://huggingface.co/Lightricks/LTX-Video)
+
+Please respect upstream Wan / LTX licenses when redistributing weights.

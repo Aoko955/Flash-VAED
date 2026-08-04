@@ -158,11 +158,12 @@ Flash-VAED/
 If you find this work useful, please cite:
 
 ```bibtex
-@article{zhu2026flashvaed,
-  title   = {Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation},
-  author  = {Zhu, Lunjie and Huang, Yushi and Ge, Xingtong and Xue, Yufei and Liu, Zhening and Zhang, Yumeng and Lin, Zehong and Zhang, Jun},
-  journal = {arXiv preprint arXiv:2602.19161},
-  year    = {2026}
+@inproceedings{zhu2026flashvaed,
+  title={Flash-{VAED}: Plug-and-Play {VAE} Decoders for Efficient Video Generation},
+  author={Lunjie Zhu and Yushi Huang and Xingtong Ge and Yufei Xue and Zhening Liu and Yumeng Zhang and Zehong Lin and Jun Zhang},
+  booktitle={Forty-third International Conference on Machine Learning},
+  year={2026},
+  url={https://openreview.net/forum?id=PDBLtVDb0d}
 }
 ```
 

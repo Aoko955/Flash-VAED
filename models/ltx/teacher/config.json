@@ -1,0 +1,32 @@
+{
+  "_class_name": "AutoencoderKLLTXVideo",
+  "_diffusers_version": "0.32.0.dev0",
+  "block_out_channels": [
+    128,
+    256,
+    512,
+    512
+  ],
+  "decoder_causal": false,
+  "encoder_causal": true,
+  "in_channels": 3,
+  "latent_channels": 128,
+  "layers_per_block": [
+    4,
+    3,
+    3,
+    3,
+    4
+  ],
+  "out_channels": 3,
+  "patch_size": 4,
+  "patch_size_t": 1,
+  "resnet_norm_eps": 1e-06,
+  "scaling_factor": 1.0,
+  "spatio_temporal_scaling": [
+    true,
+    true,
+    true,
+    false
+  ]
+}

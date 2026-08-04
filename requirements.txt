@@ -1,0 +1,7 @@
+torch>=2.0
+torchvision
+einops
+decord
+numpy
+safetensors
+packaging

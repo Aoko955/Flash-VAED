@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+.env
+.DS_Store
+demo_*/
+*.mp4
+*.pth
+*.safetensors
+!models/ltx/teacher/config.json

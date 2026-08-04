@@ -133,7 +133,7 @@ Flash-VAED vs. original VAE decoders and competitive baselines on RTX 5090D / Je
 <p align="center">
   <img src="assets/gen_teaser.png" width="100%"/>
   <br/>
-  <em>Generation examples with Flash-VAED plugged into the video generation pipeline.</em>
+  <em>Visual comparison of video generation results. Flash-VAED (bottom) matches the original Wan 2.1 VAE (top) in fidelity and texture, while LightVAE (middle) shows severe artifacts.</em>
 </p>
 
 ## 📂 Repository Layout

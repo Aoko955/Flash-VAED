@@ -131,7 +131,7 @@ Flash-VAED vs. original VAE decoders and competitive baselines on RTX 5090D / Je
 | **Flash-VAED-LTX (Ours)** | (8, 32, 32) | **1167.99** | **26.74** | **32.24** | **0.9293** | **0.0551** |
 
 <p align="center">
-  <img src="assets/gen_teaser.png" width="100%"/>
+  <img src="assets/gen_teaser_latest.png" width="100%"/>
   <br/>
   <em>Visual comparison of video generation results. Flash-VAED (bottom) matches the original Wan 2.1 VAE (top) in fidelity and texture, while LightVAE (middle) shows severe artifacts.</em>
 </p>

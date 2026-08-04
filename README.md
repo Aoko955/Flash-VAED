@@ -1,22 +1,27 @@
 # Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation
 
+[![arXiv](https://img.shields.io/badge/arXiv-2602.19161-b31b1b.svg)](https://arxiv.org/abs/2602.19161)
 [![GitHub](https://img.shields.io/badge/GitHub-Aoko955%2FFlash--VAED-black?logo=github)](https://github.com/Aoko955/Flash-VAED)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Model-yellow)](https://huggingface.co/Aoko955/Flash-VAED)
 [![ICML 2026](https://img.shields.io/badge/ICML-2026-blue)](https://icml.cc/)
 
-Lunjie Zhu<sup>1</sup>,
-Yushi Huang<sup>1</sup>,
+[Lunjie Zhu](https://scholar.google.com/citations?user=ZnKjHG0AAAAJ&hl=zh-CN)<sup>1</sup>,
+[Yushi Huang](https://harahan.github.io/)<sup>1</sup>,
 [Xingtong Ge](https://xingtongge.github.io/)<sup>1</sup>,
-Yufei Xue<sup>1</sup>,
-Zhening Liu<sup>1</sup>,
-Yumeng Zhang<sup>1</sup>,
-Zehong Lin<sup>2</sup>,
+[Yufei Xue](https://yufeixue.tech/)<sup>1</sup>,
+[Zhening Liu](https://www.liuzhening.top/)<sup>1</sup>,
+[Yumeng Zhang](https://scholar.google.com/citations?user=ueArr5YAAAAJ&hl=en)<sup>1</sup>,
+[Zehong Lin](https://zhlinup.github.io/)<sup>2</sup>,
 [Jun Zhang](https://eejzhang.people.ust.hk/)<sup>1</sup>\*
 
 <sup>1</sup>iComAI Lab, The Hong Kong University of Science and Technology &nbsp;&nbsp;
 <sup>2</sup>School of Data Science, Lingnan University
 
 The Forty-Third International Conference on Machine Learning (**ICML**), 2026
+
+[[Paper](https://arxiv.org/abs/2602.19161)]
+[[Code](https://github.com/Aoko955/Flash-VAED)]
+[[Model](https://huggingface.co/Aoko955/Flash-VAED)]
 
 \* Corresponding author: [eejzhang@ust.hk](mailto:eejzhang@ust.hk)
 
@@ -37,13 +42,6 @@ Latent diffusion models have enabled high-quality video synthesis, yet their inf
   <br/>
   <em>Overview of the Flash-VAED architecture. Stage-wise dominant operator optimization (left) substitutes CausalConv3D with stage-specific efficient operators; independence-aware channel pruning (right) reduces channels to 12.5%–25% of the original with minimal quality loss.</em>
 </p>
-
-## ✅ TODO List
-
-- [x] Inference scripts (Wan / LTX)
-- [x] Open-source model weights
-- [ ] Training code & configs
-- [ ] arXiv preprint
 
 ## 🤗 Model Weights
 
@@ -132,17 +130,6 @@ Flash-VAED vs. original VAE decoders and competitive baselines on RTX 5090D / Je
 | Turbo-VAED-LTX | (8, 32, 32) | 623.08 | 23.24 | 31.52 | 0.9275 | 0.0555 |
 | **Flash-VAED-LTX (Ours)** | (8, 32, 32) | **1167.99** | **26.74** | **32.24** | **0.9293** | **0.0551** |
 
-### Temporal consistency (warping error ↓)
-
-| Model | $E_{\mathrm{warp}}$ ↓ |
-|-------|----------------------|
-| Wan 2.1 | 0.017783 |
-| LightVAE-Wan 2.1 | 0.026640 |
-| **Flash-VAED-Wan 2.1** | **0.018662** |
-| LTX-Video | 0.022071 |
-| Turbo-VAED-LTX | 0.026261 |
-| **Flash-VAED-LTX** | **0.024267** |
-
 <p align="center">
   <img src="assets/gen_teaser.png" width="100%"/>
   <br/>
@@ -171,11 +158,11 @@ Flash-VAED/
 If you find this work useful, please cite:
 
 ```bibtex
-@inproceedings{zhu2026flashvaed,
-  title     = {Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation},
-  author    = {Zhu, Lunjie and Huang, Yushi and Ge, Xingtong and Xue, Yufei and Liu, Zhening and Zhang, Yumeng and Lin, Zehong and Zhang, Jun},
-  booktitle = {International Conference on Machine Learning (ICML)},
-  year      = {2026}
+@article{zhu2026flashvaed,
+  title   = {Flash-VAED: Plug-and-Play VAE Decoders for Efficient Video Generation},
+  author  = {Zhu, Lunjie and Huang, Yushi and Ge, Xingtong and Xue, Yufei and Liu, Zhening and Zhang, Yumeng and Lin, Zehong and Zhang, Jun},
+  journal = {arXiv preprint arXiv:2602.19161},
+  year    = {2026}
 }
 ```
 

@@ -47,12 +47,12 @@ Latent diffusion models have enabled high-quality video synthesis, yet their inf
 
 Weights are hosted on Hugging Face: **[Aoko955/Flash-VAED](https://huggingface.co/Aoko955/Flash-VAED)**.
 
-| Variant | Student checkpoint | Teacher | Approx. size (student) |
-|---------|--------------------|---------|------------------------|
-| Wan 2.1 | `models/wan/Flash_VAED_Wan.pth` | `models/wan/Wan_VAE_Teacher.pth` | ~23 MB |
-| LTX-Video | `models/ltx/Flash_VAED_LTX.pth` | `models/ltx/teacher/` | ~944 MB |
+| Variant | Student checkpoint | Teacher |
+|---------|--------------------|---------|
+| Wan 2.1 | `models/wan/Flash_VAED_Wan.pth` | `models/wan/Wan_VAE_Teacher.pth` |
+| LTX-Video | `models/ltx/Flash_VAED_LTX.pth` | `models/ltx/teacher/` |
 
-**Download (repo-relative layout):**
+**Download:**
 
 ```bash
 pip install -U "huggingface_hub[cli]"
@@ -73,21 +73,13 @@ models/ltx/teacher/config.json
 models/ltx/teacher/diffusion_pytorch_model.safetensors
 ```
 
-Override paths with `--ckpt`, `--teacher_ckpt`, or `--teacher_dir` if needed.
-
 ## 💻 Installation
 
 ```bash
 conda create -n flashvaed python=3.10 -y
 conda activate flashvaed
-
-# Install a CUDA build of PyTorch that matches your driver, e.g.:
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126
-
 pip install -r requirements.txt
 ```
-
-> LTX inference does **not** require `pip install diffusers` (a minimal local vendor is included).
 
 ## 🚀 Inference
 
@@ -173,5 +165,6 @@ This work builds on:
 
 - [Wan2.1](https://github.com/Wan-Video/Wan2.1)
 - [LTX-Video](https://huggingface.co/Lightricks/LTX-Video)
+- [Turbo-VAED](https://github.com/hustvl/Turbo-VAED)
 
 Please respect upstream Wan / LTX licenses when redistributing weights.
